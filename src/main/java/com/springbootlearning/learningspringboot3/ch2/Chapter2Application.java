@@ -10,4 +10,5 @@ public class Chapter2Application {
 		SpringApplication.run(Chapter2Application.class, args);
 	}
 
+	
 }
