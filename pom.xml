@@ -32,6 +32,12 @@
       		<groupId>org.springframework.boot</groupId>
       		<artifactId>spring-boot-starter-mustache</artifactId>
     	</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency> 
 	</dependencies>
 
 	<build>
@@ -39,6 +45,34 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.13.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npx run</id>
+						<goals>
+							<goal>npx</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<nodeVersion>v16.14.2</nodeVersion>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
