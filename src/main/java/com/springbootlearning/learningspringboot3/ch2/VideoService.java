@@ -1,6 +1,7 @@
 package com.springbootlearning.learningspringboot3.ch2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -41,5 +42,7 @@ public class VideoService {
     if (StringUtils.hasText(videoSearch.description())) {
       return repository.findByDescriptionContainsIgnoreCase(videoSearch.description());
     }
+
+    return Collections.emptyList();
 }
 }
