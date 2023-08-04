@@ -6,7 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import io.micrometer.common.util.StringUtils;
+import org.springframework.util.StringUtils;
+
 
 @Service
 public class VideoService {
@@ -33,7 +34,7 @@ public class VideoService {
     return newVideo;
   }
 
-  public List<VideoEntity> search(VideoSearch search) {
+  public List<VideoEntity> search(VideoSearch videoSearch) {
     if (StringUtils.hasText(videoSearch.name()) //
       && StringUtils.hasText(videoSearch.description())) {
         return repository //
