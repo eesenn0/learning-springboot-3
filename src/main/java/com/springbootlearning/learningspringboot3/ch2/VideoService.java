@@ -11,6 +11,12 @@ import io.micrometer.common.util.StringUtils;
 @Service
 public class VideoService {
 
+  private final VideoRepository repository;
+
+  public VideoService(VideoRepository repository) {
+    this.repository = repository;
+  }
+
   private List<Video> videos = List.of( //
     new Video("Need HELP with your SPRING BOOT 3 App?"), //
     new Video("Don't do THIS to your own CODE!"), //
