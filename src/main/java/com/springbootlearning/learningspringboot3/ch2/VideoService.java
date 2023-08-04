@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import io.micrometer.common.util.StringUtils;
+
 @Service
 public class VideoService {
 
@@ -23,4 +25,21 @@ public class VideoService {
     this.videos = List.copyOf(extend);
     return newVideo;
   }
+
+  public List<VideoEntity> search(VideoSearch search) {
+    if (StringUtils.hasText(videoSearch.name()) //
+      && StringUtils.hasText(videoSearch.description())) {
+        return repository //
+          .findByNameContainsOrDescriptionContainsAllIgnoreCase( //
+            videoSearch.name(), videoSearch.description());          
+      }
+
+    if (StringUtils.hasText(videoSearch.name())) {
+      return repository.findByNameContainsIgnoreCase(videoSearch.name());
+    }
+
+    if (StringUtils.hasText(videoSearch.description())) {
+      return repository.findByDescriptionContainsIgnoreCase(videoSearch.description());
+    }
+}
 }
