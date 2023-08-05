@@ -37,3 +37,9 @@ public class SecurityConfig {
             repository.save(new UserAccount("admin", "password", "ROLE_ADMIN"));
         };
     }
+
+    @Bean
+    UserDetailsService userService(UserRepository repo) {
+        return username -> repo.findByUsername(username)
+            .asUser();
+    }
