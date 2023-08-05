@@ -22,4 +22,6 @@ public class UserAccount {
 
     ElementCollection(fetch = FetchType.EAGER) //
     private List<GrantedAuthority> authorities = new ArrayList<>();
+
+    
 }
