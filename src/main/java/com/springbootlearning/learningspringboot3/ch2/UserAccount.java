@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
@@ -22,6 +24,8 @@ public class UserAccount {
 
     private String username;
     private String password;
+    @ElementCollection(fetch = FetchType.EAGER) //
+    private List<GrantedAuthority> authorities = new ArrayList<>();
 
     protected UserAccount() {
 
@@ -35,10 +39,7 @@ public class UserAccount {
             .map(GrantedAuthority.class::cast) //
             .toList();
     }
-
-    ElementCollection(fetch = FetchType.EAGER) //
-    private List<GrantedAuthority> authorities = new ArrayList<>();
-
+    
     public UserDetails asUser() {
         return User.withDefaultPasswordEncoder() //
             .username(getUsername()) //

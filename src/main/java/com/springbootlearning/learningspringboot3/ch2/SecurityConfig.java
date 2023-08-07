@@ -43,3 +43,4 @@ public class SecurityConfig {
         return username -> repo.findByUsername(username)
             .asUser();
     }
+}

@@ -31,10 +31,11 @@ public class HomeController {
     }
 
     @PostMapping("/new-video")
-        public String newVideo(@ModelAttribute Video newVideo) {
-            videoService.create(newVideo);
-            return "redirect:/";
-        }
+    public String newVideo(@ModelAttribute Video newVideo) {
+        videoService.create(newVideo);
+        
+        return "redirect:/";
+    }
     
     @PostMapping("/multi-field-search")
     public String multiFieldSearch(@ModelAttribute VideoSearch search, Model model) {
