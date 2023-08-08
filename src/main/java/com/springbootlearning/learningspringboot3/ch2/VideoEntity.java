@@ -9,6 +9,7 @@ public class VideoEntity {
     
     // @Id - JPA's annotation to flag the primary key
     private @Id @GeneratedValue Long id;
+    private String username;
     private String name;
     private String description;
 
@@ -16,8 +17,9 @@ public class VideoEntity {
         
     }
 
-    public VideoEntity(String name, String description) {
-        this.id = id;
+    public VideoEntity(String username, String name, String description) {
+        this.id = null;
+        this.username = username;
         this.description = description;
         this.name = name;
     }
@@ -28,6 +30,14 @@ public class VideoEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -45,6 +55,8 @@ public class VideoEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 
     
 }
