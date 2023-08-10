@@ -20,8 +20,9 @@ public class HomeController {
     }
     
     @GetMapping("/")
-        public String index(Model model) {
+        public String index(Model model, Authentication authentication) {
         model.addAttribute("videos", videoService.getVideos());
+        model.addAttribute("authentication", authentication);
         
         return "index";
     
