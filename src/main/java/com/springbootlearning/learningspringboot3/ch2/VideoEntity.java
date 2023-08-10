@@ -9,8 +9,8 @@ public class VideoEntity {
     
     // @Id - JPA's annotation to flag the primary key
     private @Id @GeneratedValue Long id;
-    private String username;
     private String name;
+    private String username;
     private String description;
 
     protected VideoEntity() {

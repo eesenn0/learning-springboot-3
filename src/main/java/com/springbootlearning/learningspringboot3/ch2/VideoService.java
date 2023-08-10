@@ -1,6 +1,5 @@
 package com.springbootlearning.learningspringboot3.ch2;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,11 +29,8 @@ public class VideoService {
     return videos;
   }
 
-  public Video create(Video newVideo) {
-    List<Video> extend = new ArrayList<>(videos);
-    extend.add(newVideo);
-    this.videos = List.copyOf(extend);
-    return newVideo;
+  public VideoEntity create(NewVideo newVideo, String username) {
+    return repository.saveAndFlush(new VideoEntity(username, newVideo.name(), newVideo.description()));
   }
 
   public List<VideoEntity> search(VideoSearch videoSearch) {
@@ -69,5 +65,14 @@ public class VideoService {
         .withStringMatcher(StringMatcher.CONTAINING));
 
     return repository.findAll(example);
+  }
+
+  public void delete(Long videoId) {
+    repository.findById(videoId)
+      .map(videoEntity -> {
+        repository.delete(videoEntity);
+        return true;
+      })
+      .orElseThrow(() -> new RuntimeException("No video at " + videoId));
   }
 }
