@@ -3,11 +3,14 @@ package com.springbootlearning.learningspringboot3.ch2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -24,7 +27,7 @@ public class UserAccount {
 
     private String username;
     private String password;
-    @ElementCollection(fetch = FetchType.EAGER) //
+    @ElementCollection(fetch = FetchType.EAGER) 
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
     protected UserAccount() {
@@ -34,18 +37,20 @@ public class UserAccount {
     public UserAccount(String username, String password, String... authorities) {
         this.username = username;
         this.password = password;
-        this.authorities = Arrays.stream(authorities) //
-            .map(SimpleGrantedAuthority::new) //
-            .map(GrantedAuthority.class::cast) //
+        this.authorities = Arrays.stream(authorities) 
+            .map(SimpleGrantedAuthority::new) 
+            .map(GrantedAuthority.class::cast) 
             .toList();
     }
     
     public UserDetails asUser() {
-        return User.withDefaultPasswordEncoder() //
-            .username(getUsername()) //
-            .password(getPassword()) //
-            .authorities(getAuthorities()) //
-            .build();   
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(getPassword()); 
+        
+        return User.withUsername(getUsername())
+            .password(encodedPassword)
+            .authorities(getAuthorities())
+            .build();
     }
 
     public Long getId() {
@@ -78,6 +83,28 @@ public class UserAccount {
 
     public void setAuthorities(List<GrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        UserAccount user = (UserAccount) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) 
+            && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, authorities);
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount [id=" + id + ", username=" + username + ", password=" + password + ", authorities="
+                + authorities + "]";
     }
 
     

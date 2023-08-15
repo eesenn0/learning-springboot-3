@@ -28,30 +28,20 @@ public class HomeController {
     
     }
 
-    @GetMapping("/react")
-    public String react() {
-        return "react";
-    }
-
     @PostMapping("/new-video")
     public String newVideo(@ModelAttribute NewVideo newVideo, Authentication authentication) {
         videoService.create(newVideo, authentication.getName());
         
         return "redirect:/";
     }
-    
-    @PostMapping("/multi-field-search")
-    public String multiFieldSearch(@ModelAttribute VideoSearch search, Model model) {
-        List<VideoEntity> searchResults = videoService.search(search);
-        model.addAttribute("videos", searchResults);
 
-        return "index";
-    }
-
-    @PostMapping("/universal-search")
-    public String universalSearch(@ModelAttribute UniversalSearch search, Model model) {
+    @PostMapping("/search")
+    public String universalSearch(@ModelAttribute Search search, Model model, 
+        Authentication authentication) {
         List<VideoEntity> searchResults = videoService.search(search);
+        model.addAttribute("search", search);
         model.addAttribute("videos", searchResults);
+        model.addAttribute("authentication", authentication);
 
         return "index";
     }
