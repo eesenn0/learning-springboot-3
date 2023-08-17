@@ -1,16 +1,17 @@
 package com.springbootlearning.learningspringboot3.ch2;
 
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.data.domain.Example;
 
 @ExtendWith(MockitoExtension.class)
 public class VideoServiceTest {
@@ -38,5 +39,21 @@ public class VideoServiceTest {
 
         // then
         assertThat(videos).containsExactly(video1, video2);
+    }
+
+    @Test
+    void creatingANewVideoShouldReturnTheSameData() {
+        // given
+        given(repository.saveAndFlush(any(VideoEntity.class)))
+                .willReturn(new VideoEntity("alice", "name", "des"));
+
+        // when
+        VideoEntity newVideo = service.create(new NewVideo("name", "des"), "alice");
+
+        // then
+        assertThat(newVideo.getName().isEqualTo("name"));
+        assertThat(newVideo.getName().isEqualTo("des"));
+        assertThat(newVideo.getName().isEqualTo("alice"));
+
     }
 }
