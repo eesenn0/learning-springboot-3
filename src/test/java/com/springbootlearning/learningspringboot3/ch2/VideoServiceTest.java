@@ -56,4 +56,21 @@ public class VideoServiceTest {
         assertThat(newVideo.getName().isEqualTo("alice"));
 
     }
+
+    @Test
+    void deletingAVideoShouldWork() {
+        // given
+        VideoEntity entity = new VideoEntity("alice", "name", "desc");
+
+        entity.setId(1L);
+        when(repository.findById(1L))
+            .thenReturn(Optional.of(entity));
+
+        // when
+        service.delete(1L);
+
+        // then
+        verify(repository).findById(1L);
+        verify(repository).delete(entity);
+    }
 }
