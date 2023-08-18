@@ -50,4 +50,16 @@ public class VideoRepositoryHsqlTest {
             .containsExactlyInAnyOrder(
                 "Need HELP with your SPRING BOOT 3 App?");
     }
+
+    @Test
+    void findByNameOrDescriptionShouldFindTwo() {
+        List<VideoEntity> videos = repository
+            .findByNameContainsOrDescriptionContainsAllIgnoreCase("CoDe", "YOUR CODE");
+
+        assertThat(videos).hasSize(2);
+        assertThat(videos)
+            .extracting(VideoEntity::getDescription)
+            .contains("As a pro developer, never ever EVER do this to your code.",
+            "Discover ways to not only debug your code");
+    }
 }
